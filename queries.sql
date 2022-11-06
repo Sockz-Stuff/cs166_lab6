@@ -13,3 +13,8 @@ where catalog.sid = suppliers.sid and catalog.pid = parts.pid
 group by Suppliers.sname
 having COUNT(catalog.pid) >= 3;
 
+SELECT Suppliers.sname, COUNT(Catalog.pid)
+from catalog, suppliers, parts
+where catalog.sid = suppliers.sid and catalog.pid = parts.pid 
+group by Suppliers.sname
+having parts.color = 'green';
