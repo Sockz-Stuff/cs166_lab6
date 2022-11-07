@@ -309,31 +309,14 @@ public class EmbeddedSQL {
    
 	try{
 
-		String q00 = "drop table if exists suppliersr; ";
-		String q0 = "drop table if exists suppliersg; ";
-		String q1 = "select catalog.sid, catalog.cost ";
-		String q2 = "into suppliersg ";
-		String q3 = "from catalog, suppliers, parts ";
-		String q4 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color = 'Green'; ";
+		String q0 = "select sname, cost from ( select E.sname, B.cost from catalog A cross join catalog B cross join ";
+		String q1 = "parts C cross join parts D cross join suppliers E ";
+		String q2 = "where(A.sid = B.sid and A.pid = C.pid and B.pid = D.pid and C.color = 'Green' and D.color = 'Red' and B.cost > A.cost and 			E.sid = A.sid)) L";
 
-		String q5 = "select catalog.sid, catalog.cost ";
-		String q6 = "into suppliersr ";
-		String q7 = "from catalog, suppliers, parts ";
-		String q8 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color = 'Red'; ";
+		String query = q0 + q1 + q2;
 
-		String q9 = "select suppliers.sname, max(suppliersr.cost) ";
-		String q10 = "from suppliers, suppliersr, suppliersg, catalog ";
-		String q11 = "where suppliersr.sid = suppliersg.sid and suppliersr.sid = suppliers.sid ";
-		String q12 = "group by suppliers.sname";
+		int row = esql.executeQuery(query);
 
-
-		String query1 = q1 + q2 + q3 + q4;
-		String query2 = q5 + q6 + q7 + q8;
-		String query3 = q9 + q10 + q11 + q12;
-
-		String result = q00 + q0 + query1 + query2 + query3;
-
-		int rowCount = esql.executeQuery(result); 
 	}catch(Exception e){
 		System.err.println(e.getMessage());
 	}
