@@ -249,27 +249,95 @@ public class EmbeddedSQL {
    }//end QueryExample
    
    public static void Query1(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+   	try{
+	String q1 = "SELECT Suppliers.sname, COUNT(Catalog.pid) ";
+	String q2 = "FROM Catalog, Suppliers, Parts ";
+	String q3 = "WHERE Catalog.sid = Suppliers.sid AND Catalog.pid = Parts.pid ";
+	String q4 = "GROUP BY Suppliers.sname";
+
+	String query = q1+q2+q3+q4;
+	int rowCount = esql.executeQuery(query);
+	}catch(Exception e){
+		System.err.println(e.getMessage());
+	}
+
    }//end Query1
 
    public static void Query2(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+	try{
+		
+		String q1 = "SELECT Suppliers.sname, COUNT(Catalog.pid) ";
+		String q2 = "from catalog, suppliers, parts ";
+		String q3 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid ";
+		String q4 = "group by Suppliers.sname ";
+		String q5 = "having COUNT(catalog.pid) >= 3";
+
+		String query = q1+q2+q3+q4+q5;
+
+		int rowCount = esql.executeQuery(query);
+
+	}catch(Exception e){
+		System.err.println(e.getMessage());
+	}   
    }//end Query2
 
    public static void Query3(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+   
+	try{
+
+		String q1 = "select suppliers.sname, count(catalog.pid) ";
+		String q2 = "from catalog, suppliers, parts ";
+		String q3 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid ";
+		String q4 = "and ";
+		String q5 = "not exists( ";
+		String q6 = "select catalog.sid ";
+		String q7 = "from catalog, suppliers, parts ";
+		String q8 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color != 'Green') ";
+		String q9 = "group by suppliers.sname";
+
+		String query = q1+q2+q3+q4+q5+q6+q7+q8+q9;
+
+		int rowCount = esql.executeQuery(query);
+	
+	}catch(Exception e){
+		System.err.println(e.getMessage());
+	}
+
    }//end Query3
 
    public static void Query4(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+   
+	try{
+
+		String q00 = "drop table if exists suppliersr; ";
+		String q0 = "drop table if exists suppliersg; ";
+		String q1 = "select catalog.sid, catalog.cost ";
+		String q2 = "into suppliersg ";
+		String q3 = "from catalog, suppliers, parts ";
+		String q4 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color = 'Green'; ";
+
+		String q5 = "select catalog.sid, catalog.cost ";
+		String q6 = "into suppliersr ";
+		String q7 = "from catalog, suppliers, parts ";
+		String q8 = "where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color = 'Red'; ";
+
+		String q9 = "select suppliers.sname, max(suppliersr.cost) ";
+		String q10 = "from suppliers, suppliersr, suppliersg, catalog ";
+		String q11 = "where suppliersr.sid = suppliersg.sid and suppliersr.sid = suppliers.sid ";
+		String q12 = "group by suppliers.sname";
+
+
+		String query1 = q1 + q2 + q3 + q4;
+		String query2 = q5 + q6 + q7 + q8;
+		String query3 = q9 + q10 + q11 + q12;
+
+		String result = q00 + q0 + query1 + query2 + query3;
+
+		int rowCount = esql.executeQuery(result); 
+	}catch(Exception e){
+		System.err.println(e.getMessage());
+	}
+
    }//end Query4
 
    public static void Query5(EmbeddedSQL esql){
