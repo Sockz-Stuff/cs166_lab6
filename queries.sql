@@ -1,6 +1,7 @@
 drop table suppliersg;
 drop table suppliersr;
 
+
 /* Find the total number of parts supplied by each supplier */
 SELECT Suppliers.sname, COUNT(Catalog.pid)
 FROM Catalog, Suppliers, Parts
@@ -31,7 +32,7 @@ group by suppliers.sname;
 /* For every supplier that supplies green part and red part, print the 
 name of the supplier and the price of the most expensive part that 
 he supplies. pid (1 or 3 or 8) and 9 which means big red tools and perfunctory parts should return */
-
+/*
 select catalog.sid, catalog.cost
 into suppliersg
 from catalog, suppliers, parts
@@ -46,3 +47,18 @@ select suppliers.sname, max(suppliersr.cost)
 from suppliers, suppliersr, suppliersg, catalog
 where suppliersr.sid = suppliersg.sid and suppliersr.sid = suppliers.sid
 group by suppliers.sname;
+
+*/
+select sname, cost
+from (
+select E.sname, B.cost
+from catalog A
+cross join
+catalog B
+cross join
+parts C
+cross join
+parts D
+cross join
+suppliers E
+where(A.sid = B.sid and A.pid = C.pid and B.pid = D.pid and C.color = 'Green' and D.color = 'Red' and B.cost > A.cost and E.sid = A.sid)) L;
