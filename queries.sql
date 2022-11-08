@@ -66,4 +66,12 @@ where(A.sid = B.sid and A.pid = C.pid and B.pid = D.pid and C.color = 'Green' an
 
 /*these are the ones that are the extra ones that are to be developed in the java file i made them here first to make sure it worked*/
 
+select pname 
+from parts, catalog, suppliers
+where(catalog.sid = suppliers.sid and catalog.pid = parts.pid and catalog.cost < 4)
+group by pname;
 
+select address 
+from parts, catalog, suppliers
+where(catalog.sid = suppliers.sid and catalog.pid = parts.pid and pname = 'Acme Widget Washer')
+group by address;
