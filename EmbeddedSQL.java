@@ -328,13 +328,13 @@ public class EmbeddedSQL {
          String q1 = "select pname from parts, catalog, suppliers ";
 	 String q2 = "where(catalog.sid = suppliers.sid and catalog.pid = parts.pid ";
 	 String q3 = "and catalog.cost < ";
-	 String q4 = " group by pname";
+	 String q4 = ") group by pname";
 	      
          System.out.print("\tEnter cost: $");
          String input = in.readLine();
          q3 += input;
 	      
-	 String query = q1 + q2 + q3 +q4;
+	 String query = q1 + q2 + q3 + q4;
 
          int rowCount = esql.executeQuery(query);
          System.out.println ("total row(s): " + rowCount);
