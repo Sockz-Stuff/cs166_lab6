@@ -75,3 +75,59 @@ select address
 from parts, catalog, suppliers
 where(catalog.sid = suppliers.sid and catalog.pid = parts.pid and pname = 'Acme Widget Washer')
 group by address;
+
+/*
+select pname, sname
+from parts, suppliers, 
+(
+select pid, sid
+from catalog
+where cost = (select max(cost) from catalog)
+)D
+where parts.pid = D.pid and suppliers.sid = D.sid;
+*/
+
+
+/* 5.2 */
+
+/* #6 */
+select p.pid, s.sname
+from parts p, suppliers s, catalog c
+where p.pid = c.pid and s.sid = c.sid
+and c.cost =
+(
+select max(R.cost)
+from catalog R
+where R.pid = p.pid
+);
+
+/* #7 */
+select distinct c.sid
+from catalog c
+where not exists
+(
+select *
+from parts p, suppliers s
+where c.sid = s.sid and c.pid = p.pid and p.color != 'Red'
+)
+EXCEPT
+select distinct c.sid
+from catalog c
+where not exists
+(select *
+from parts p, suppliers s
+where c.sid = s.sid and c.pid = p.pid and p.color = 'Red'
+)
+; 
+
+/*
+
+table of has reds
+
+table of has not reds
+
+intersection should be the table of just reds
+
+
+*/
+
