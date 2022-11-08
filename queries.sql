@@ -62,3 +62,8 @@ parts D
 cross join
 suppliers E
 where(A.sid = B.sid and A.pid = C.pid and B.pid = D.pid and C.color = 'Green' and D.color = 'Red' and B.cost > A.cost and E.sid = A.sid)) L;
+
+
+/*these are the ones that are the extra ones that are to be developed in the java file i made them here first to make sure it worked*/
+
+
