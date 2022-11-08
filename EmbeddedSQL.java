@@ -347,7 +347,7 @@ public class EmbeddedSQL {
       try{
          String q1 = "select address from parts, catalog, suppliers ";
 	 String q2 = "where(catalog.sid = suppliers.sid and catalog.pid = parts.pid ";
-	 String q3 = "and pname = ' ";
+	 String q3 = "and pname = '";
 	 String q4 = "') group by address";
 	      
          System.out.print("\tEnter Part name: ");
