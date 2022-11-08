@@ -324,9 +324,23 @@ public class EmbeddedSQL {
    }//end Query4
 
    public static void Query5(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
+      try{
+         String q1 = "select pname from parts, catalog, suppliers ";
+	 String q2 = "where(catalog.sid = suppliers.sid and catalog.pid = parts.pid ";
+	 String q3 = "and catalog.cost < ";
+	 String q4 = " group by pname";
+	      
+         System.out.print("\tEnter cost: $");
+         String input = in.readLine();
+         q3 += input;
+	      
+	 String query = q1 + q2 + q3 +q4;
+
+         int rowCount = esql.executeQuery(query);
+         System.out.println ("total row(s): " + rowCount);
+      }catch(Exception e){
+         System.err.println (e.getMessage());
+      }
    }//end Query5
 
    public static void Query6(EmbeddedSQL esql){
