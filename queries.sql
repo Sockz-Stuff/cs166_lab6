@@ -88,7 +88,7 @@ where parts.pid = D.pid and suppliers.sid = D.sid;
 */
 
 
-/* 5.2 */
+/* Problem 1 */
 
 /* #6 */
 select p.pid, s.sname
@@ -120,14 +120,89 @@ where c.sid = s.sid and c.pid = p.pid and p.color = 'Red'
 )
 ; 
 
-/*
+/* 8 */
+/* Find the sids of suppliers who supply a red part and a green part. */
 
-table of has reds
+((select  c.sid
+from parts p, catalog c
+where c.pid = p.pid and p.color != 'Red'
+)intersect
+(select  c2.sid
+from catalog c2, parts p2 
+where c2.pid=p2.pid and p2.color!='Green'
+))
+intersect
+(
+select c3.sid
+from parts p3, catalog c3
+where c3.pid = p3.pid and (p3.color = 'Red' or p3.color = 'Green')
+)
+;
 
-table of has not reds
+/* 9 */
+/* Find the sids of suppliers who supply a red part or a green part */
 
-intersection should be the table of just reds
+select distinct c.sid
+from parts p, catalog c
+where c.pid = p.pid and (p.color = 'Red' or p.color = 'Green')
+;
+
+/* 10 */
+/*  For every supplier that only supplies green parts, print the name of the supplier
+and the total number of parts that she supplies */
+
+select suppliers.sname, count(catalog.pid)
+from catalog, suppliers, parts
+where catalog.sid = suppliers.sid and catalog.pid = parts.pid
+and
+not exists(
+select catalog.sid
+from catalog, suppliers, parts
+where catalog.sid = suppliers.sid and catalog.pid = parts.pid and parts.color != 'Green')
+group by suppliers.sname;
 
 
-*/
+/* 11 */
+/* For every supplier that supplies a green part and a red part, print the name and
+price of the most expensive part that she supplies */
+
+select sname, cost
+from (
+select E.sname, B.cost
+from catalog A
+cross join
+catalog B
+cross join
+parts C
+cross join
+parts D
+cross join
+suppliers E
+where(A.sid = B.sid and A.pid = C.pid and B.pid = D.pid and C.color = 'Green' and 
+D.color = 'Red' and B.cost > A.cost and E.sid = A.sid)) L;
+
+
+/* Problem 2 */
+
+/* 3 */
+/* Print the name of each employee whose salary exceeds the budget of all of the
+departments that he or she works in. */
+
+select e.eid
+from emp e, works w, dept d
+where e.eid = w.eid and w.did = d.did and e.salary > d.budget;
+
+
+/* 6 */
+/* If a manager manages more than one department, he or she controls the sum of all
+the budgets for those departments. Find the managerids of managers who control
+more than $5 million. */
+
+select e.eid 
+from emp e, dept d,
+where  e.eid=d.managerid and SUM(d.budget)>5000000
+;
+
+
+/* Problem 3 */
 
