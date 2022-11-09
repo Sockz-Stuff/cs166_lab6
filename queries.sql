@@ -206,3 +206,26 @@ where  e.eid=d.managerid and SUM(d.budget)>5000000
 
 /* Problem 3 */
 
+/* a */
+select e.ename
+from (
+employee e
+cross join
+manages m
+cross join
+employee f
+)
+where (e.ename = m.mname and e.ename != f.ename 
+and e.city = f.city and e.street = f.street);
+
+/* b */
+
+select e.ename
+from emplyee e,
+(select w.ename w.cname, avg(w.salary)
+from works w
+group by w.cname) D,
+works w,
+where e.ename = D.ename and w.cname = D.cnamen and w.salary > D.salary
+;
+
